@@ -3,4 +3,4 @@
 
 
 def obrat_slovnik(slovnik):
-    ...
+    return {hodnota:klic for klic, hodnota in zip(slovnik.keys(), slovnik.values())}
