@@ -23,3 +23,54 @@
 #
 # Pro tento pokročilý způsob je však třeba použít pokročilou knihovnu pro práci
 # s parametry příkazové řádky, jako např. argparse nebo click.
+
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--from",
+    type=str,
+    help="senders_account",
+    required=True,
+    dest="from_account")
+
+parser.add_argument(
+    "--to",
+    type=str,
+    help="senders_account",
+    required=True)
+
+parser.add_argument(
+    "--amount",
+    type=int,
+    help="senders_account",
+    required=True)
+
+args = parser.parse_args()
+
+try:
+    with open(args.from_account)as f:
+        senders_balance = int(f.read())
+except:
+    print("sender's account does not exist or is broken")
+    exit()
+
+try:
+    with open(args.to)as f:
+        receivers_balance = int(f.read())
+except:
+    print("sender's account does not exist or is broken")
+    exit()
+
+if senders_balance < args.amount:
+    print("Not enough money!")
+    exit()
+
+receivers_balance += args.amount
+senders_balance -= args.amount
+
+with open(args.from_account, "w")as f:
+    f.write(str(senders_balance))
+
+with open(args.to, "w")as f:
+    f.write(str(receivers_balance))
